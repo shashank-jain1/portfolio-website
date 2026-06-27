@@ -79,9 +79,15 @@ export default function Loader({ onComplete }) {
         </p>
       </div>
 
-      {/* Atmospheric faint border glow */}
-      <div className="absolute inset-[15%] border border-primary/5 rounded-[32px] pointer-events-none" />
-      <div className="absolute inset-[25%] border border-secondary/5 rounded-[24px] pointer-events-none" />
+      {/* Spinning concentric HUD rings */}
+      <div className="absolute w-[360px] h-[360px] rounded-full border border-dashed border-primary/20 animate-spin pointer-events-none" style={{ animationDuration: '40s' }} />
+      <div className="absolute w-[330px] h-[330px] rounded-full border border-dotted border-secondary/15 animate-spin-reverse pointer-events-none" />
+      <div className="absolute w-[300px] h-[300px] rounded-full border-t border-b border-primary/25 animate-spin pointer-events-none" style={{ animationDuration: '12s' }} />
+
+      {/* Geolocation Coordinate Indicator */}
+      <div className="absolute bottom-12 font-mono text-[8px] text-textMuted/70 uppercase tracking-[0.25em] select-none">
+        LOC: 23.25° N // 77.41° E // BHOPAL, IN
+      </div>
     </div>
   )
 }

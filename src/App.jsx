@@ -13,6 +13,7 @@ import SceneObjects from './components/canvas/SceneObjects'
 // UI & Scene Components
 import Navbar from './components/ui/Navbar'
 import Loader from './components/ui/Loader'
+import CustomCursor from './components/ui/CustomCursor'
 import SceneHero from './components/scenes/SceneHero'
 import SceneAbout from './components/scenes/SceneAbout'
 import SceneSkills from './components/scenes/SceneSkills'
@@ -73,6 +74,7 @@ export default function App() {
 
   return (
     <>
+      <CustomCursor />
       {/* 1. Loader Monogram Overlay */}
       {loading && <Loader onComplete={() => setLoading(false)} />}
 

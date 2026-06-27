@@ -132,3 +132,24 @@ html.lenis {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* Custom HUD loader animations */
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 25s linear infinite;
+}
+
+/* Disable default cursor on desktop when using custom cursor */
+@media (pointer: fine) {
+  html, body, a, button, [role="button"] {
+    cursor: none !important;
+  }
+}
