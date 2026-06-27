@@ -18,24 +18,61 @@ export default function SceneCommunity() {
   const containerRef = useRef()
 
   useEffect(() => {
-    // 1. Reveal headers
+    // 1. Giant Background Title slide scroll scrub
+    const giantTitle = containerRef.current.querySelector('.giant-title')
     gsap.fromTo(
-      containerRef.current.querySelector('.comm-header'),
-      { opacity: 0, y: 30 },
+      giantTitle,
+      { x: '-35vw', rotate: 2 },
       {
-        opacity: 1,
-        y: 0,
-        duration: 1.0,
-        ease: 'power3.out',
+        x: '35vw',
+        rotate: -2,
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 80%',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.0
+        }
+      }
+    )
+
+    // 2. Heading slide up reveals
+    const revealLines = containerRef.current.querySelectorAll('.reveal-text-line')
+    gsap.fromTo(
+      revealLines,
+      { y: '100%' },
+      {
+        y: '0%',
+        stagger: 0.08,
+        duration: 0.8,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 75%',
           toggleActions: 'play none none reverse'
         }
       }
     )
 
-    // 2. Stagger slide-in list items on scroll
+    // 3. Fade reveals
+    const fadeEls = containerRef.current.querySelectorAll('.reveal-fade')
+    gsap.fromTo(
+      fadeEls,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+
+    // 4. Stagger slide-in list items on scroll
     const items = containerRef.current.querySelectorAll('.event-item')
     gsap.fromTo(
       items,
@@ -43,7 +80,7 @@ export default function SceneCommunity() {
       {
         opacity: 1,
         x: 0,
-        stagger: 0.15,
+        stagger: 0.12,
         duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
@@ -72,9 +109,22 @@ export default function SceneCommunity() {
     <section
       id="scene-community"
       ref={containerRef}
-      className="scene min-h-[110vh] w-full flex items-center relative z-10 py-20"
+      className="scene min-h-[120vh] w-full flex items-center relative z-10 py-32 overflow-hidden"
     >
-      <div className="scene-content comm-content-wrap w-full select-none">
+      {/* Giant Background Title - Animates on Scroll */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 select-none overflow-hidden opacity-30">
+        <div
+          className="giant-title font-display font-black text-transparent whitespace-nowrap leading-none tracking-widest"
+          style={{
+            fontSize: '24vw',
+            WebkitTextStroke: '1.5px rgba(108, 99, 255, 0.12)'
+          }}
+        >
+          COMMUNITY
+        </div>
+      </div>
+
+      <div className="scene-content comm-content-wrap w-full select-none relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           
           {/* Left Side: Empty space for 3D Globe Wireframe */}
@@ -82,32 +132,39 @@ export default function SceneCommunity() {
 
           {/* Right Side: Community content */}
           <div className="md:col-span-7 flex flex-col text-left">
-            <div className="comm-header opacity-0">
-              <span className="font-mono text-micro text-secondary uppercase tracking-[0.25em] mb-3">
-                // CONNECTING DEVELOPERS
+            <div className="comm-header">
+              <span className="reveal-fade font-mono text-micro text-secondary uppercase tracking-[0.25em] mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-secondary" />
+                // ENGAGEMENT
               </span>
-              <h2 className="font-display text-[var(--text-title)] font-extrabold leading-[1.0] text-textMain">
-                Building Communities <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                  that inspire growth.
-                </span>
+              
+              <h2 className="font-display text-[2.8rem] md:text-[4rem] lg:text-[4.8rem] font-black leading-[0.9] text-textMain tracking-tighter">
+                <div className="overflow-hidden py-1.5">
+                  <span className="reveal-text-line block">Building Spaces</span>
+                </div>
+                <div className="overflow-hidden py-1.5">
+                  <span className="reveal-text-line block text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">
+                    that inspire.
+                  </span>
+                </div>
               </h2>
-              <p className="font-body text-body font-light text-textMuted mt-4 max-w-xl leading-relaxed">
+              
+              <p className="reveal-fade font-body text-[1.125rem] md:text-[1.25rem] font-light text-textMuted/90 mt-8 max-w-xl leading-relaxed">
                 Empowering the developer ecosystem through conference planning, open source hacking, and technology mentorship across India and Asia.
               </p>
             </div>
 
             {/* List of events/roles */}
-            <div className="event-list-wrap mt-8 space-y-3.5 max-w-lg border-l border-border/80 pl-6 py-2">
+            <div className="event-list-wrap mt-10 space-y-4 max-w-xl border-l-2 border-border/80 pl-6 py-2">
               {EVENTS.map((item, idx) => (
                 <div
                   key={idx}
-                  className="event-item opacity-0 flex items-center gap-3.5 group"
+                  className="event-item opacity-0 flex items-center gap-4 group"
                 >
-                  <span className="font-mono text-xs text-primary group-hover:text-secondary transition-colors select-none">
+                  <span className="font-mono text-sm text-primary group-hover:text-secondary transition-colors select-none">
                     ★
                   </span>
-                  <span className="font-mono text-micro md:text-small text-textMain tracking-wide group-hover:translate-x-1.5 transition-transform duration-300">
+                  <span className="font-mono text-micro md:text-small text-textMain tracking-wide group-hover:translate-x-2 transition-transform duration-300">
                     {item}
                   </span>
                 </div>

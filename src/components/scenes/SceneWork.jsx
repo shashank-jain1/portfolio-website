@@ -8,18 +8,55 @@ export default function SceneWork() {
   const containerRef = useRef()
 
   useEffect(() => {
-    // Reveal text block on scroll
+    // 1. Giant Background Title slide scroll scrub
+    const giantTitle = containerRef.current.querySelector('.giant-title')
     gsap.fromTo(
-      containerRef.current.querySelector('.work-header'),
+      giantTitle,
+      { x: '35vw', rotate: -2 },
+      {
+        x: '-35vw',
+        rotate: 2,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.0
+        }
+      }
+    )
+
+    // 2. Heading slide up reveals
+    const revealLines = containerRef.current.querySelectorAll('.reveal-text-line')
+    gsap.fromTo(
+      revealLines,
+      { y: '100%' },
+      {
+        y: '0%',
+        stagger: 0.08,
+        duration: 0.8,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+
+    // 3. Fade reveals
+    const fadeEls = containerRef.current.querySelectorAll('.reveal-fade')
+    gsap.fromTo(
+      fadeEls,
       { opacity: 0, y: 30 },
       {
         opacity: 1,
         y: 0,
-        duration: 1.0,
+        stagger: 0.1,
+        duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 80%',
+          start: 'top 70%',
           toggleActions: 'play none none reverse'
         }
       }
@@ -43,26 +80,46 @@ export default function SceneWork() {
     <section
       id="scene-work"
       ref={containerRef}
-      className="scene min-h-[110vh] w-full flex items-center relative z-10 py-20"
+      className="scene min-h-[120vh] w-full flex items-center relative z-10 py-32 overflow-hidden"
     >
-      <div className="scene-content work-content-wrap w-full select-none">
-        <div className="flex flex-col text-left mb-10 work-header opacity-0">
-          <span className="font-mono text-micro text-secondary uppercase tracking-[0.25em] mb-3">
+      {/* Giant Background Title - Animates on Scroll */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 select-none overflow-hidden opacity-30">
+        <div
+          className="giant-title font-display font-black text-transparent whitespace-nowrap leading-none tracking-widest"
+          style={{
+            fontSize: '24vw',
+            WebkitTextStroke: '1.5px rgba(255, 107, 53, 0.12)'
+          }}
+        >
+          PORTFOLIO
+        </div>
+      </div>
+
+      <div className="scene-content work-content-wrap w-full select-none relative z-10">
+        <div className="flex flex-col text-left mb-14">
+          <span className="reveal-fade font-mono text-micro text-secondary uppercase tracking-[0.25em] mb-4 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-accent" />
             // SELECTED PROJECTS
           </span>
-          <h2 className="font-display text-[var(--text-title)] font-extrabold leading-[1.0] text-textMain">
-            Engineering{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              Impactful Solutions
-            </span>
+          
+          <h2 className="font-display text-[2.8rem] md:text-[4rem] lg:text-[4.8rem] font-black leading-[0.9] text-textMain tracking-tighter">
+            <div className="overflow-hidden py-1.5">
+              <span className="reveal-text-line block">Engineering</span>
+            </div>
+            <div className="overflow-hidden py-1.5">
+              <span className="reveal-text-line block text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary">
+                Impactful Products.
+              </span>
+            </div>
           </h2>
-          <p className="font-body text-body font-light text-textMuted mt-4 max-w-xl leading-relaxed">
+          
+          <p className="reveal-fade font-body text-[1.125rem] md:text-[1.25rem] font-light text-textMuted/90 mt-8 max-w-2xl leading-relaxed">
             A gallery of public sector platforms, enterprise-grade AI copilots, and multi-tenant architectures. Scroll to move through the project cards horizontally.
           </p>
         </div>
 
         {/* Height spacer for 3D Project Cards scrolling row */}
-        <div className="h-[400px] w-full" />
+        <div className="h-[440px] w-full" />
       </div>
     </section>
   )

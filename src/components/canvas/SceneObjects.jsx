@@ -54,11 +54,11 @@ export default function SceneObjects({ isMobile = false }) {
         morphShaderRef.current.uniforms.uTime.value = time
       }
 
-      // Fade out and scale down as we scroll to next scene (0.22 to 0.30)
+      // Fade out and scale down quickly as we scroll away from Hero (0.15 to 0.21)
       let scale = isMobile ? 1.0 : 1.6
       let opacity = 0.8
-      if (progress > 0.22) {
-        const fadeFactor = Math.max(0, Math.min(1, (progress - 0.22) / 0.08))
+      if (progress > 0.15) {
+        const fadeFactor = Math.max(0, Math.min(1, (progress - 0.15) / 0.06))
         scale = (isMobile ? 1.0 : 1.6) * (1 - fadeFactor)
         opacity = 0.8 * (1 - fadeFactor)
       }
